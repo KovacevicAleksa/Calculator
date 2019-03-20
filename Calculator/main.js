@@ -1,3 +1,11 @@
+
+function runLB(){
+		document.case.display.value += "("
+}
+function runRB(){
+		document.case.display.value += ")"
+}
+
 function run1(){
 
 	document.case.display.value += "1"
@@ -63,6 +71,10 @@ function runComma(){
 
 	document.case.display.value += "."
 };
+function runBack(){
+	var val = document.case.display.value.slice(0, -1);
+    document.case.display.value = val;
+};
 
 function runC(){
 
@@ -77,4 +89,5 @@ function runEquals() {
 	var equals = eval(document.case.display.value)
 	document.case.display.value = equals;
 }
+
 }
