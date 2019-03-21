@@ -1,4 +1,3 @@
-
 function myFunction() {
   var x = document.getElementById("Cal");
   if (x.style.display === "none") {

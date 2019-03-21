@@ -1,22 +1,14 @@
+
 html {
 background:
 	linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
-}
-not (display) {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 16px;
-	vertical-align: baseline;
-	background: transparent;
 }
 ul {
 	list-style: none;
 }
 body {
 	width: 500px;
-	
+
 }
 #a{
  position: absolute;
