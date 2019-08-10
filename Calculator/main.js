@@ -1,13 +1,4 @@
 
-// hide and how element
-function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if ( (charCode < 40 || charCode > 57)) {
-        return false;
-    }
-    return true;
-}
 function myFunction() {
     var x = document.getElementById("Cal");
     if (x.style.display === "none") {
@@ -123,23 +114,60 @@ function runBack() {
     }
 
 };
+function testLength() {
+    Notiflix.Confirm.Init({
+            timeout: 3000,
+            });
+
+    if (document.case.display.value.length  >16 &&  document.case.display.value.length < 21) {
+
+      Notiflix.Notify.Info('Because you have a lot of charatchers font size is smaller');
+      document.getElementById("display").style.fontWeight = "550";
+      document.getElementById("display").style.fontSize = "2em";
+} else if (document.case.display.value.length > 20) {
+    var str = document.case.display.value.length
+    Notiflix.Notify.Warning('Max characters you can see is 25 ');
+    Notiflix.Notify.Failure('Number of your characters' + str);
+
+    document.getElementById("display").style.fontWeight = "500";
+    document.getElementById("display").style.fontSize = "1.5em";
+}
+else {
+    document.getElementById("display").style.fontWeight = "500";
+    document.getElementById("display").style.fontSize = "2.5em";
+}}
+
+window.setInterval(function(){
+testLength();
+}, 100);
 
 function runEquals() {
-    if (document.case.display.value == "") {
-        document.case.display.placeholder = "Type!"
+    if ( document.case.display.value.length < 3 ) {
+        Notiflix.Notify.Info('Enter charatchers !');
     } else {
         var equals = Math.round(eval(document.case.display.value)* 1000) / 1000;
         document.case.display.value = equals;
         document.getElementById("result").innerHTML += queue.join("") + "=" + equals + "\n";
         queue = [equals.toString()];
 
-
     }
 }
-
+Notiflix.Confirm.Init({
+        timeout: 3000,
+	    okButtonBackground:"#C46600",
+		titleColor:"#C46600",
+    });
 function Del() {
-    document.getElementById("result").innerHTML = "";
+     Notiflix.Confirm.Show( ' Confirm',
+     'Are you sure you want to delete text?', 'Yes', 'No', function(){
+         Notiflix.Notify.Success('Text is Deleted');
+         document.getElementById("result").innerHTML = "";
+ },
+  function(){
+      Notiflix.Notify.Info('Text is not Deleted');
+     } );
 }
+
 //print
 function printTextArea() {
   childWindow = window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');
@@ -173,29 +201,55 @@ function FontP() {
         txt.style.fontSize = (currentSize + 5) + 'px';
     }
 }
-
-
-//save txtarea input local storage ..
-function SaveBtn(){
-var input_textarea = document.querySelector('#result');
+window.onload=function(){
+//local storage savebtn
+var note_textarea = document.querySelector('#TE');
+var result_textarea = document.querySelector('#result');
 var save_button = document.querySelector('#SaveBtn');
+var display = document.querySelector('#display');
 
 save_button.addEventListener('click', updateOutput);
 
-input_textarea.textContent = localStorage.getItem('content');
-input_textarea.value = localStorage.getItem('content');
+result_textarea.textContent = localStorage.getItem('content1');
+note_textarea.textContent = localStorage.getItem('content');
+display.value = localStorage.getItem('content_display');
 
 function updateOutput() {
-     Del();
-	localStorage.setItem('content', input_textarea.value);
-    input_textarea.textContent = input_textarea.value;
+    Notiflix.Notify.Success('Text  has been saved ');
+	localStorage.setItem('content', note_textarea.value);
+    localStorage.setItem('content1', result_textarea.value);
+    localStorage.setItem('content_display',display.value);
+
 }
-}
+
 window.onload = function() {
  const myInput = document.getElementById('display');
  myInput.onpaste = function(e) {
    e.preventDefault();
  }
+}
+
+}
+function Git() {
+    window.open("https://github.com/TheLexa", "_blank");
+};
+//lock scrolling
+/*
+$('body').css({'overflow':'hidden'});
+ $(document).bind('scroll',function () {
+      window.scrollTo(0,0);
+ });
+*/
+
+// NUMBERS
+/*
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ( (charCode < 40 || charCode > 57)) {
+        return false;
+    }
+    return true;
 }
 
 var equal = document.getElementById("equal");
@@ -204,13 +258,15 @@ wage.addEventListener("keydown", function (e) {
          runEquals();
     }
 });
+*/
 
-//lock scrolling
-$('body').css({'overflow':'hidden'});
- $(document).bind('scroll',function () {
-      window.scrollTo(0,0);
- });
 
- function Git() {
-     window.open("https://github.com/TheLexa", "_blank");
-};
+/*
+$(document).ready(function() {
+  // ••• Show alert in a pop-up message box
+  //alert("Hello Wordl!")
+  $('button#comma').click(function() {
+    alert('Hello World!');
+  });
+});
+*/
