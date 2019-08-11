@@ -137,9 +137,11 @@ else {
     document.getElementById("display").style.fontSize = "2.5em";
 }}
 
-window.setInterval(function(){
-testLength();
-}, 100);
+document.addEventListener("DOMContentLoaded", function(event) { 
+  var numbers = document.querySelectorAll(".digit")
+  console.log("numbers", numbers);
+  numbers.forEach(el => el.addEventListener('click', testLength))
+});
 
 function runEquals() {
     if ( document.case.display.value.length < 3 ) {
