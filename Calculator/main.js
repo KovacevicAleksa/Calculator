@@ -1,4 +1,3 @@
-
 function myFunction() {
     var x = document.getElementById("Cal");
     if (x.style.display === "none") {
@@ -115,9 +114,6 @@ function runBack() {
 
 };
 function testLength() {
-    Notiflix.Confirm.Init({
-            timeout: 3000,
-            });
 
     if (document.case.display.value.length  >16 &&  document.case.display.value.length < 21) {
 
@@ -126,7 +122,7 @@ function testLength() {
       document.getElementById("display").style.fontSize = "2em";
 } else if (document.case.display.value.length > 20) {
     var str = document.case.display.value.length
-    Notiflix.Notify.Warning('Max characters you can see is 25 ');
+    Notiflix.Notify.Warning('Max characters you can see is 28 ');
     Notiflix.Notify.Failure('Number of your characters' + str);
 
     document.getElementById("display").style.fontWeight = "500";
@@ -137,27 +133,62 @@ else {
     document.getElementById("display").style.fontSize = "2.5em";
 }}
 
-window.setInterval(function(){
-testLength();
-}, 100);
+    document.addEventListener("DOMContentLoaded", function(event) {
+    var numbers = document.querySelectorAll(".digit, #back")
+    numbers.forEach(el => el.addEventListener('click', testLength))
+});
 
 function runEquals() {
     if ( document.case.display.value.length < 3 ) {
         Notiflix.Notify.Info('Enter charatchers !');
-    } else {
+    }else if (isNaN(document.case.display.value) ) {
         var equals = Math.round(eval(document.case.display.value)* 1000) / 1000;
         document.case.display.value = equals;
         document.getElementById("result").innerHTML += queue.join("") + "=" + equals + "\n";
         queue = [equals.toString()];
+        document.getElementById('back').value = "CE";
+        document.getElementById('back').onclick = runBack ;
+    }else if (document.case.display.value == "Infinity" ) {
+       document.getElementById('back').value = "AC";
+        document.getElementById('back').onclick = DeleteAll ;
+        Notiflix.Notify.Warning(' Infinity ! ');
+
+    } else {
+        document.getElementById('back').value = "CE";
+        document.getElementById('back').onclick = runBack ;
+        Notiflix.Notify.Warning(' Can not be calculated ! ');
 
     }
 }
+
+function testNum(){
+    if (document.case.display.value == "Infinity"  ) {
+      document.getElementById('back').value = "AC";
+       document.getElementById('back').onclick = DeleteAll ;
+       Notiflix.Notify.Warning(' Infinity ! ');
+    }else if (document.case.display.value == "NaN") {
+        document.getElementById('back').value = "AC";
+         document.getElementById('back').onclick = DeleteAll ;
+         Notiflix.Notify.Warning(' Not a Number ! ');
+     }else if (document.case.display.value == "0/0" ) {
+             Notiflix.Notify.Warning(' You cannot divide by 0 ! ');
+   } else {
+       document.getElementById('back').value = "CE";
+       document.getElementById('back').onclick = runBack ;
+}}
+document.addEventListener("DOMContentLoaded", function(event) {
+var numbers = document.querySelectorAll(".digit, .oper")
+numbers.forEach(el => el.addEventListener('click', testNum))
+});
 Notiflix.Confirm.Init({
         timeout: 3000,
 	    okButtonBackground:"#C46600",
 		titleColor:"#C46600",
     });
-function Del() {
+    function DeleteAll() {
+        document.case.display.value = "";
+    }
+    function Del() {
      Notiflix.Confirm.Show( ' Confirm',
      'Are you sure you want to delete text?', 'Yes', 'No', function(){
          Notiflix.Notify.Success('Text is Deleted');
@@ -251,7 +282,6 @@ function isNumber(evt) {
     }
     return true;
 }
-
 var equal = document.getElementById("equal");
 wage.addEventListener("keydown", function (e) {
     if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
