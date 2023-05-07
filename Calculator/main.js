@@ -141,6 +141,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function runEquals() {
+    AutoFix();
+    testNum();
+    if (stop) {
+        return;
+      }else{
     if (document.case.display.value.length < 3) {
         Notiflix.Notify.Info('Enter charatchers !');
     } else if (isNaN(document.case.display.value)) {
@@ -151,18 +156,13 @@ function runEquals() {
         document.getElementById('back').value = "CE";
         document.getElementById('back').onclick = runBack;
         Notiflix.Notify.Success(' ');
-    } else if (document.case.display.value == "Infinity") {
-        document.getElementById('back').value = "AC";
-        document.getElementById('back').onclick = DeleteAll;
-        Notiflix.Notify.Warning(' Infinity ! ');
-
     } else {
         document.getElementById('back').value = "CE";
         document.getElementById('back').onclick = runBack;
         Notiflix.Notify.Warning(' Can not be calculated ! ');
 
     }
-}
+}}
 
 function testNum() {
     if (document.case.display.value == "Infinity") {
@@ -173,7 +173,7 @@ function testNum() {
         document.getElementById('back').value = "AC";
         document.getElementById('back').onclick = DeleteAll;
         Notiflix.Notify.Warning(' Not a Number ! ');
-    } else if (!document.case.display.value.includes("")) {} else if (document.case.display.value.includes("/0")) {
+    } else if (document.case.display.value.includes("/0")) {
         Notiflix.Notify.Failure(' You cannot divide by 0 ! ');
     } else if (document.case.display.value.includes("..") || document.case.display.value.includes("//") || document.case.display.value.includes("**") || document.case.display.value.includes("--") || document.case.display.value.includes("++")) {
         runBack();
@@ -197,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var numbers = document.querySelectorAll(".digit, .oper")
     numbers.forEach(el => el.addEventListener('click', testNum))
 });
+
 Notiflix.Confirm.Init({
     timeout: 3000,
     okButtonBackground: "#C46600",
@@ -208,11 +209,22 @@ function DeleteAll() {
 }
 
 function Del() {
+    
     Notiflix.Confirm.Show(' Confirm',
         'Are you sure you want to delete text?', 'Yes', 'No',
         function() {
-            Notiflix.Notify.Success('Text is Deleted');
+            localStorage.removeItem('content');
+            localStorage.removeItem('content1');
+            localStorage.removeItem('content_display');
+
+            document.querySelector('#TE').value = "";
+            document.querySelector('#result').value = "";
+            document.querySelector('#display').value = "";
+
+            queue = "";
             document.getElementById("result").innerHTML = "";
+            Notiflix.Notify.Success('Text is Deleted');
+            
         },
         function() {
             Notiflix.Notify.Info('Text is not Deleted');
@@ -283,9 +295,39 @@ window.onload = function() {
 }
 
 function Git() {
-    window.open("https://github.com/TheLexa", "_blank");
+    window.open("https://github.com/KovacevicAleksa", "_blank");
 };
-
+var stop = false;
+function AutoFix(){
+    let leftParenthesesCount = 0;
+    let rightParenthesesCount = 0;
+  
+    
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i] === "(") {
+        leftParenthesesCount++;
+      } else if (queue[i] === ")") {
+        rightParenthesesCount++;
+      }
+    }
+    if((rightParenthesesCount-leftParenthesesCount)>0){
+        for(let i=0;i<rightParenthesesCount-leftParenthesesCount;i++){
+        document.case.display.value = "(" + document.case.display.value;
+        queue.unshift("(");
+        stop = true;
+    }
+        
+        
+    }else if((leftParenthesesCount-rightParenthesesCount)>0){
+        for(let j=0;j<leftParenthesesCount - rightParenthesesCount;j++){
+            document.case.display.value = document.case.display.value + ")";
+            queue.push(")");
+            stop = true;
+        }
+        
+    }else{stop = false;}
+    
+}
 // NUMBERS
 /*
 function isNumber(evt) {
@@ -301,5 +343,5 @@ wage.addEventListener("keydown", function (e) {
     if (e.keyCode === 13) {  //checks whether the pressed key is "Enter"
          runEquals();
     }
-});
+}); 
 */
